@@ -1,7 +1,5 @@
-export async function PATCH() {
-  return Response.json({ error: "云端后台尚未配置。" }, { status: 503 });
-}
-
-export async function DELETE() {
-  return Response.json({ error: "云端后台尚未配置。" }, { status: 503 });
-}
+import{adminClient,withSignedImages}from"@/lib/submissions";
+async function ok(r:Request){const t=r.headers.get("authorization")?.replace(/^Bearer /,"");if(!t)return false;const{data}=await adminClient().auth.getUser(t);return !!data.user&&data.user.email?.toLowerCase()===process.env.ADMIN_EMAIL?.toLowerCase()}
+export async function GET(r:Request){if(!await ok(r))return Response.json({error:"未授权"},{status:401});const{data}=await adminClient().from("submissions").select("*").order("created_at",{ascending:false});return Response.json(await withSignedImages(data??[]))}
+export async function PATCH(r:Request){if(!await ok(r))return Response.json({error:"未授权"},{status:401});const x=await r.json(),s=x.status==="approved"?"published":x.status;const{error}=await adminClient().from("submissions").update({title:String(x.title).slice(0,80),body:String(x.body).slice(0,600),submitter_name:String(x.submitterName).slice(0,40),admin_note:String(x.adminNote??"").slice(0,300),section_key:String(x.sectionKey??"class-story").slice(0,40),slot_number:x.slotNumber?Number(x.slotNumber):null,visibility:x.visibility==="private"?"private":"public",status:s,published_at:s==="published"?new Date().toISOString():null,updated_at:new Date().toISOString()}).eq("id",x.id);return error?Response.json({error:error.message},{status:400}):Response.json({ok:true})}
+export async function DELETE(r:Request){if(!await ok(r))return Response.json({error:"未授权"},{status:401});const id=new URL(r.url).searchParams.get("id"),db=adminClient(),{data}=await db.from("submissions").select("image_path").eq("id",id).single();if(data?.image_path)await db.storage.from("submission-images").remove([data.image_path]);await db.from("submissions").delete().eq("id",id);return Response.json({ok:true})}
