@@ -1,6 +1,10 @@
 import PixelIntro from "./PixelIntro";
 import { approved } from "@/lib/submissions";
 
+// Published submissions must be read on every request so teacher approvals
+// appear immediately without rebuilding the whole site.
+export const dynamic = "force-dynamic";
+
 const pblGroups = [
   ["pbl-group-1","一组","PBL GROUP 01","yellow"],
   ["pbl-group-2","二组","PBL GROUP 02","blue"],
