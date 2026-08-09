@@ -74,3 +74,16 @@
   z-index: 101;
   pointer-events: auto !important;
 }
+
+/* Restore the original hero layout */
+.hero-stamp {
+  position: absolute !important;
+  right: 4vw;
+  top: 35px;
+  z-index: 4;
+}
+
+.fresh-hero > div:not(.garden-art):not(.hero-stamp) {
+  position: relative;
+  z-index: 10;
+}
