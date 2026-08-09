@@ -50,3 +50,27 @@
 .fresh-hero>div:not(.garden-art){position:relative;z-index:3}
 .hero-buttons{position:relative;z-index:5}
 .hero-buttons a{position:relative;z-index:6;pointer-events:auto}
+
+/* Fix homepage button click area */
+.fresh-hero::before,
+.garden-art,
+.garden-art * {
+  pointer-events: none !important;
+}
+
+.fresh-hero > div:not(.garden-art) {
+  position: relative;
+  z-index: 10;
+}
+
+.hero-buttons {
+  position: relative;
+  z-index: 100;
+  pointer-events: auto !important;
+}
+
+.hero-buttons a {
+  position: relative;
+  z-index: 101;
+  pointer-events: auto !important;
+}
