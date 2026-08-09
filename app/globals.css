@@ -48,42 +48,42 @@
 /* Keep decorative hero layers from intercepting the two main links. */
 .fresh-hero::before,.garden-art,.garden-art *{pointer-events:none}
 .fresh-hero>div:not(.garden-art){position:relative;z-index:3}
+
+/* Character-select intro v3 */
+.character-chooser{position:absolute;left:7vw;top:50%;z-index:8;width:min(520px,86vw);transform:translateY(-50%);text-align:left}
+.character-chooser>small{font:900 10px Arial;letter-spacing:.18em;color:var(--ink)}
+.character-chooser h1{margin:12px 0 0;font-size:clamp(36px,5vw,72px);line-height:1;letter-spacing:-.05em}
+.character-chooser>p{margin:10px 0 22px;font:800 11px Arial;letter-spacing:.18em}
+.character-options{display:flex;gap:14px}
+.character-options button{width:180px;height:245px;padding:12px 12px 14px;display:grid;grid-template-rows:1fr auto auto;justify-items:center;border:3px solid var(--ink);background:rgba(255,253,247,.92);box-shadow:6px 6px 0 var(--ink);cursor:pointer;transition:transform .18s ease,background .18s ease}
+.character-options button:first-child{background:#fff4d8}.character-options button:hover,.character-options button:focus-visible{transform:translateY(-7px);background:var(--yellow);outline:3px solid var(--white);outline-offset:3px}
+.character-options img{height:170px;max-width:120px;object-fit:contain;align-self:end;image-rendering:auto;filter:drop-shadow(3px 4px 0 rgba(38,48,41,.2))}
+.character-options b{font-size:15px}.character-options span{font:800 9px Arial;letter-spacing:.12em;color:#657068}
+.phase-run .character-chooser{pointer-events:none;animation:chooserOut .35s ease forwards}
+.phase-jump .character-chooser,.phase-burst .character-chooser,.phase-welcome .character-chooser{display:none}
+.character-runner{position:absolute;left:18%;bottom:11%;z-index:5;width:130px;height:205px;object-fit:contain;object-position:center bottom;opacity:0;filter:drop-shadow(5px 6px 0 rgba(38,48,41,.2));transform-origin:50% 100%}
+.phase-run .character-runner{opacity:1;animation:runnerMove .7s cubic-bezier(.3,.05,.3,1) forwards}
+.phase-jump .character-runner{left:58%;opacity:1;animation:runnerJump .52s cubic-bezier(.25,0,.45,1)}
+.phase-burst .character-runner{left:58%;opacity:1;animation:runnerCelebrate .75s ease both}
+.spark-seed{left:63%;bottom:43%;width:230px;height:230px;font-size:inherit;text-shadow:none;pointer-events:none}
+.spark-seed b{position:absolute;inset:0;display:grid;place-items:center;font:900 145px/1 Arial;color:var(--yellow);-webkit-text-stroke:7px var(--ink);filter:drop-shadow(8px 9px 0 rgba(38,48,41,.22))}
+.spark-seed i{position:absolute;font-style:normal;font-size:54px;color:var(--white);-webkit-text-stroke:3px var(--ink)}
+.spark-seed i:nth-child(2){left:0;top:15%}.spark-seed i:nth-child(3){right:-3%;top:7%;color:var(--coral)}.spark-seed i:nth-child(4){right:17%;bottom:-6%;color:var(--white)}
+.phase-burst .spark-seed{opacity:1;animation:starBurst .85s cubic-bezier(.17,.84,.32,1) forwards}
+.phase-burst .spark-seed b{animation:starPulse .85s ease-out}.phase-burst .spark-seed i{animation:sparkPop .8s ease-out}
+@keyframes chooserOut{to{opacity:0;transform:translate(-30px,-50%);filter:blur(5px)}}
+@keyframes runnerMove{0%{left:18%;transform:translateY(0) rotate(0)}20%{transform:translateY(-7px) rotate(-2deg)}40%{transform:translateY(0) rotate(2deg)}60%{transform:translateY(-7px) rotate(-2deg)}80%{transform:translateY(0) rotate(2deg)}100%{left:58%;transform:translateY(0) rotate(0)}}
+@keyframes runnerJump{0%,100%{transform:translateY(0) scale(1)}52%{transform:translateY(-138px) scale(.96,1.04)}}
+@keyframes runnerCelebrate{0%{transform:translateY(0)}35%{transform:translateY(-18px) rotate(-3deg)}65%{transform:translateY(0) rotate(3deg)}100%{transform:translateY(0) rotate(0)}}
+@keyframes starBurst{0%{transform:translate(-18px,65px) scale(.12) rotate(-24deg);opacity:0}35%{opacity:1;transform:translate(0,0) scale(1.18) rotate(7deg)}70%{transform:scale(.96) rotate(-3deg);opacity:1}100%{transform:translate(105px,-70px) scale(.72) rotate(18deg);opacity:0}}
+@keyframes starPulse{0%{transform:scale(.3)}45%{transform:scale(1.12)}100%{transform:scale(1)}}
+@keyframes sparkPop{0%{transform:translate(0,45px) scale(.2);opacity:0}45%{opacity:1}100%{transform:translate(0,-30px) scale(1.2);opacity:0}}
+@media(max-width:700px){.character-chooser{left:50%;top:48%;transform:translate(-50%,-50%);text-align:center}.character-options{justify-content:center}.character-options button{width:145px;height:220px}.character-options img{height:145px}.character-runner{width:92px;height:155px}.phase-jump .character-runner,.phase-burst .character-runner{left:52%}.bb-block{left:62%;width:82px;height:82px}.spark-seed{left:52%;width:190px;height:190px}.spark-seed b{font-size:115px}}
+
+/* Preserve the original two-column homepage while keeping links clickable. */
+.fresh-hero::before,.garden-art,.garden-art *{pointer-events:none!important}
+.hero-stamp{position:absolute!important;right:4vw;top:35px;z-index:4}
+.fresh-hero>div:not(.garden-art):not(.hero-stamp){position:relative;z-index:10}
+.hero-buttons,.hero-buttons a{position:relative;z-index:100;pointer-events:auto!important}
 .hero-buttons{position:relative;z-index:5}
 .hero-buttons a{position:relative;z-index:6;pointer-events:auto}
-
-/* Fix homepage button click area */
-.fresh-hero::before,
-.garden-art,
-.garden-art * {
-  pointer-events: none !important;
-}
-
-.fresh-hero > div:not(.garden-art) {
-  position: relative;
-  z-index: 10;
-}
-
-.hero-buttons {
-  position: relative;
-  z-index: 100;
-  pointer-events: auto !important;
-}
-
-.hero-buttons a {
-  position: relative;
-  z-index: 101;
-  pointer-events: auto !important;
-}
-
-/* Restore the original hero layout */
-.hero-stamp {
-  position: absolute !important;
-  right: 4vw;
-  top: 35px;
-  z-index: 4;
-}
-
-.fresh-hero > div:not(.garden-art):not(.hero-stamp) {
-  position: relative;
-  z-index: 10;
-}
