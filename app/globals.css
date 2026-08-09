@@ -44,3 +44,9 @@
 .pbl-grid{grid-template-columns:repeat(2,1fr)}.pbl-card{min-height:450px}.pbl-card:last-child{grid-column:1/-1;min-height:390px}.pbl-card>small{font:800 10px Arial;letter-spacing:.14em}.pbl-card .empty-slot{display:grid;gap:8px}.pbl-card .empty-slot span{font-size:12px}
 .phase-jump .pixel-student{animation-duration:.55s}.phase-jump .bb-block{animation-duration:.25s;animation-delay:.32s}.phase-burst .spark-seed{animation-duration:.72s}.phase-burst .pixel-ground{animation-duration:.58s;animation-delay:.08s}.phase-burst .pixel-student{animation-duration:.62s;animation-delay:.1s}.phase-welcome .intro-title{animation-duration:.72s}
 @media(max-width:700px){.pbl-grid{grid-template-columns:1fr}.pbl-card:last-child{grid-column:auto}}
+
+/* Keep decorative hero layers from intercepting the two main links. */
+.fresh-hero::before,.garden-art,.garden-art *{pointer-events:none}
+.fresh-hero>div:not(.garden-art){position:relative;z-index:3}
+.hero-buttons{position:relative;z-index:5}
+.hero-buttons a{position:relative;z-index:6;pointer-events:auto}
