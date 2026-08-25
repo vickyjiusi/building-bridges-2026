@@ -71,6 +71,32 @@
 .spark-seed i:nth-child(2){left:0;top:15%}.spark-seed i:nth-child(3){right:-3%;top:7%;color:var(--coral)}.spark-seed i:nth-child(4){right:17%;bottom:-6%;color:var(--white)}
 .phase-burst .spark-seed{opacity:1;animation:starBurst .85s cubic-bezier(.17,.84,.32,1) forwards}
 .phase-burst .spark-seed b{animation:starPulse .85s ease-out}.phase-burst .spark-seed i{animation:sparkPop .8s ease-out}
+
+/* Smaller, consistently cropped summer-story cards with uninterrupted motion. */
+.story-marquee-track {
+  animation-duration: 64s;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+}
+
+.story-marquee:hover .story-marquee-track {
+  animation-play-state: running;
+}
+
+.story-day-card {
+  width: clamp(360px, 44vw, 720px);
+  transform: translateZ(0);
+}
+
+.story-photo {
+  aspect-ratio: 16 / 9;
+}
+
+@media (max-width: 640px) {
+  .story-day-card {
+    width: 78vw;
+  }
+}
 @keyframes chooserOut{to{opacity:0;transform:translate(-30px,-50%);filter:blur(5px)}}
 @keyframes runnerMove{0%{left:18%;transform:translateY(0) rotate(0)}20%{transform:translateY(-7px) rotate(-2deg)}40%{transform:translateY(0) rotate(2deg)}60%{transform:translateY(-7px) rotate(-2deg)}80%{transform:translateY(0) rotate(2deg)}100%{left:58%;transform:translateY(0) rotate(0)}}
 @keyframes runnerJump{0%,100%{transform:translateY(0) scale(1)}52%{transform:translateY(-138px) scale(.96,1.04)}}
