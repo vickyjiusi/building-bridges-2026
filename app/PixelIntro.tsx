@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const MUSIC_URL = "/audio/clair-de-lune.mp3";
+const MUSIC_URL = "/audio/ganbei.mp3";
 
 export default function PixelIntro() {
   const [phase, setPhase] = useState<"choose" | "run" | "jump" | "burst" | "welcome" | "exiting" | "gone">("choose");
@@ -74,6 +74,6 @@ export default function PixelIntro() {
       <div className="pixel-ground" aria-hidden="true">{Array.from({length: 18},(_,i)=><i key={i}/>)}</div>
       <div className="intro-wipe" />
     </div>}
-    <button className={`music-toggle ${audioError?"music-error":""}`} onClick={toggleMusic} aria-label={playing?"暂停背景音乐":"播放背景音乐"}><span>{playing?"Ⅱ":"▶"}</span><b>CLAIR DE LUNE</b><small>{audioError?"点击重试":playing?"MUSIC ON":"MUSIC OFF"}</small></button>
+    <button className={`music-toggle ${audioError?"music-error":""}`} onClick={toggleMusic} aria-label={playing?"暂停背景音乐":"播放背景音乐"}><span>{playing?"Ⅱ":"▶"}</span><b>干杯</b><small>{audioError?"请上传授权音频":playing?"MUSIC ON":"MUSIC OFF"}</small></button>
   </>;
 }

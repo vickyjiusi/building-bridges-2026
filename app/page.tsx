@@ -1,5 +1,6 @@
 import PixelIntro from "./PixelIntro";
 import FutureMessages from "./FutureMessages";
+import StoryMarquee from "./StoryMarquee";
 import { approved } from "@/lib/submissions";
 
 // Published submissions must be read on every request so teacher approvals
@@ -29,9 +30,9 @@ export default async function Home(){
 
     <section className="fresh-section works-section" id="works"><header className="section-head pbl-head"><div><small>02 / PBL PROJECTS</small><h2>我们的 PBL 作品</h2></div><p><b>PBL 教学法（Problem-Based Learning / Project-Based Learning）</b>是以问题或项目为导向的教学模式。该方法以学生为中心，通过小组合作形式围绕真实世界的非结构化问题展开，培养学生批判性思维、解决问题及团队协作能力，教师角色转为指导者。</p></header><div className="category-grid pbl-grid">{pblGroups.map(([key,title,label,color],index)=>{const works=publicRows.filter(r=>r.sectionKey===key);return <article className={`category pbl-card ${color}`} key={key}><div className="cat-index">{String(index+1).padStart(2,"0")}</div><small>{label}</small><h3>{title}</h3>{works.length?<div className="mini-works">{works.slice(0,4).map(w=><div key={w.id}>{w.imageUrl&&<img src={w.imageUrl} alt={w.title}/>}<b>{w.title}</b><span>{w.submitterName}</span></div>)}</div>:<div className="empty-slot"><b>这一组的项目空间</b><span>可上传项目图片、过程记录与成果说明</span></div>}<a href={`/contribute?section=${key}`}>＋ 上传{title}的 PBL 内容</a></article>})}</div></section>
 
-    <section className="fresh-section story-section" id="stories"><header className="section-head"><div><small>03 / STORIES</small><h2>正在发生的故事</h2></div><p>课堂照片、活动片段和共同制作过程，会在这里成为班级时间线。</p></header><div className="story-ribbon">{["认识科技艺术","设计网页世界","从游戏学习视觉","和 AI 讨论创作","拥抱数字故障","共同完成网站","想象未来艺术"].map((x,i)=><article key={x}><span>0{i+1}</span><h3>{x}</h3><p>CLASS IN PROGRESS</p></article>)}</div><a className="section-upload" href="/contribute?section=class-story">＋ 添加一段班级故事</a></section>
+    <section className="fresh-section story-section" id="stories"><header className="section-head"><div><small>03 / SUMMER 2026</small><h2>2026年的夏天，<br/>我们在这里。</h2></div><p>从第一次见面到最后一次合影，课堂、讨论、创作与欢笑，组成了我们共同的BB12。把鼠标停在照片上，长卷会暂时停下来。</p></header><StoryMarquee updates={publicRows.filter(r=>r.sectionKey==="class-story").map(({id,slotNumber,title,body,imageUrl})=>({id,slotNumber,title,body,imageUrl}))}/><a className="section-upload" href="/contribute?section=class-story">＋ 补充一天的照片</a></section>
 
-    <section className="fresh-section future-section" id="future"><div><small>04 / MESSAGE TO FUTURE</small><h2>写给未来，<br/>也写给现在的我们。</h2><p>你可以选择公开展示，也可以作为私密信件只交给老师保存。没有学生账号时，网站不会声称只有本人可以读取。</p><a href="/contribute?section=future-message">写下一句话 →</a></div><FutureMessages messages={publicRows.filter(r=>r.sectionKey==="future-message").map(({id,body,submitterName})=>({id,body,submitterName}))}/></section>
+    <section className="fresh-section future-section" id="future"><div><small>04 / MESSAGE TO FUTURE</small><h2>写给未来，<br/>也写给现在的我们。</h2><a href="/contribute?section=future-message">写下一句话 →</a></div><FutureMessages messages={publicRows.filter(r=>r.sectionKey==="future-message").map(({id,body,submitterName})=>({id,body,submitterName}))}/></section>
     <footer className="fresh-footer"><div><b>BB12</b><span>BUILDING BRIDGES 2026</span></div><p>一座由全班共同建造、持续生长的数字空间。</p><a href="#home">BACK TO TOP ↑</a></footer>
   </main>;
 }
