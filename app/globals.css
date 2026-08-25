@@ -97,6 +97,30 @@
     width: 78vw;
   }
 }
+
+/* Auto-scrolls normally; pauses and becomes manually draggable on hover. */
+.story-marquee {
+  overflow-x: auto;
+  overflow-y: hidden;
+  cursor: grab;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+  touch-action: pan-y;
+}
+
+.story-marquee::-webkit-scrollbar {
+  display: none;
+}
+
+.story-marquee.is-dragging {
+  cursor: grabbing;
+  user-select: none;
+}
+
+.story-marquee-track,
+.story-marquee:hover .story-marquee-track {
+  animation: none !important;
+}
 @keyframes chooserOut{to{opacity:0;transform:translate(-30px,-50%);filter:blur(5px)}}
 @keyframes runnerMove{0%{left:18%;transform:translateY(0) rotate(0)}20%{transform:translateY(-7px) rotate(-2deg)}40%{transform:translateY(0) rotate(2deg)}60%{transform:translateY(-7px) rotate(-2deg)}80%{transform:translateY(0) rotate(2deg)}100%{left:58%;transform:translateY(0) rotate(0)}}
 @keyframes runnerJump{0%,100%{transform:translateY(0) scale(1)}52%{transform:translateY(-138px) scale(.96,1.04)}}

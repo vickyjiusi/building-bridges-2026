@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const MUSIC_URL = "/audio/ganbei.mp3";
+const MUSIC_URL = "/audio/ganbei.mp3?v=20260825-2";
 
 export default function PixelIntro() {
   const [phase, setPhase] = useState<"choose" | "run" | "jump" | "burst" | "welcome" | "exiting" | "gone">("choose");
