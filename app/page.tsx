@@ -1,4 +1,5 @@
 import PixelIntro from "./PixelIntro";
+import FutureMessages from "./FutureMessages";
 import { approved } from "@/lib/submissions";
 
 // Published submissions must be read on every request so teacher approvals
@@ -30,7 +31,7 @@ export default async function Home(){
 
     <section className="fresh-section story-section" id="stories"><header className="section-head"><div><small>03 / STORIES</small><h2>正在发生的故事</h2></div><p>课堂照片、活动片段和共同制作过程，会在这里成为班级时间线。</p></header><div className="story-ribbon">{["认识科技艺术","设计网页世界","从游戏学习视觉","和 AI 讨论创作","拥抱数字故障","共同完成网站","想象未来艺术"].map((x,i)=><article key={x}><span>0{i+1}</span><h3>{x}</h3><p>CLASS IN PROGRESS</p></article>)}</div><a className="section-upload" href="/contribute?section=class-story">＋ 添加一段班级故事</a></section>
 
-    <section className="fresh-section future-section" id="future"><div><small>04 / MESSAGE TO FUTURE</small><h2>写给未来，<br/>也写给现在的我们。</h2><p>你可以选择公开展示，也可以作为私密信件只交给老师保存。没有学生账号时，网站不会声称只有本人可以读取。</p><a href="/contribute?section=future-message">写下一句话 →</a></div><div className="future-cards">{publicRows.filter(r=>r.sectionKey==="future-message").slice(0,3).map(x=><blockquote key={x.id}>“{x.body}”<b>— {x.submitterName}</b></blockquote>)}<blockquote className="future-empty">未来的艺术，<br/>可能是 ______。</blockquote></div></section>
+    <section className="fresh-section future-section" id="future"><div><small>04 / MESSAGE TO FUTURE</small><h2>写给未来，<br/>也写给现在的我们。</h2><p>你可以选择公开展示，也可以作为私密信件只交给老师保存。没有学生账号时，网站不会声称只有本人可以读取。</p><a href="/contribute?section=future-message">写下一句话 →</a></div><FutureMessages messages={publicRows.filter(r=>r.sectionKey==="future-message").map(({id,body,submitterName})=>({id,body,submitterName}))}/></section>
     <footer className="fresh-footer"><div><b>BB12</b><span>BUILDING BRIDGES 2026</span></div><p>一座由全班共同建造、持续生长的数字空间。</p><a href="#home">BACK TO TOP ↑</a></footer>
   </main>;
 }
