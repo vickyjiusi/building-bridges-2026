@@ -13,19 +13,37 @@ export default function ContributionForm({initialSection=""}:{initialSection?:st
  const storySlots=useMemo(()=>Array.from({length:8},(_,i)=>i),[]);
  const pblNumber=section.startsWith("pbl-group-")?section.slice(-1):"";
  async function compressImage(file:File){
-  if(file.size<=700*1024)return file;
+  const targetBytes=600*1024;
+  if(file.size<=targetBytes)return file;
+  const bitmap=await createImageBitmap(file);
   try{
-   const bitmap=await createImageBitmap(file),scale=Math.min(1,1600/Math.max(bitmap.width,bitmap.height));
-   const canvas=document.createElement("canvas");canvas.width=Math.round(bitmap.width*scale);canvas.height=Math.round(bitmap.height*scale);
-   canvas.getContext("2d")?.drawImage(bitmap,0,0,canvas.width,canvas.height);bitmap.close();
-   const blob=await new Promise<Blob|null>(resolve=>canvas.toBlob(resolve,"image/webp",.82));
-   return blob?new File([blob],`${file.name.replace(/\.[^.]+$/,"")}.webp`,{type:"image/webp"}):file;
-  }catch{return file}
+   const longest=Math.max(bitmap.width,bitmap.height);
+   let scale=Math.min(1,1400/longest),quality=.78,best:Blob|null=null;
+   for(let attempt=0;attempt<6;attempt++){
+    const canvas=document.createElement("canvas");
+    canvas.width=Math.max(1,Math.round(bitmap.width*scale));
+    canvas.height=Math.max(1,Math.round(bitmap.height*scale));
+    const context=canvas.getContext("2d");
+    if(!context)throw new Error("浏览器无法处理图片");
+    context.drawImage(bitmap,0,0,canvas.width,canvas.height);
+    const blob=await new Promise<Blob|null>(resolve=>canvas.toBlob(resolve,"image/webp",quality));
+    if(!blob)throw new Error("图片压缩失败");
+    best=blob;
+    if(blob.size<=targetBytes)break;
+    scale*=.82;
+    quality=Math.max(.56,quality-.06);
+   }
+   if(!best||best.size>750*1024)throw new Error("图片压缩后仍然过大，请换一张图片");
+   return new File([best],`${file.name.replace(/\.[^.]+$/,"")}.webp`,{type:"image/webp"});
+  }finally{bitmap.close()}
  }
  async function submit(e:FormEvent<HTMLFormElement>){
   e.preventDefault();setState("sending");setMessage("");const form=e.currentTarget,data=new FormData(form),image=data.get("image");
-  if(image instanceof File&&image.size){if(image.size>15*1024*1024){setMessage("原始图片请不要超过15MB。");setState("error");return}data.set("image",await compressImage(image))}
-  const r=await fetch("/api/submissions",{method:"POST",body:data}),d=await r.json().catch(()=>({}));if(r.ok){form.reset();setSection("");setState("done")}else{setMessage(d.error??"提交失败，请重试。");setState("error")}
+  if(image instanceof File&&image.size){
+   if(image.size>15*1024*1024){setMessage("原始图片请不要超过15MB。");setState("error");return}
+   try{data.set("image",await compressImage(image))}catch(error){setMessage(error instanceof Error?error.message:"图片压缩失败，请换一张图片");setState("error");return}
+  }
+  const r=await fetch("/api/submissions",{method:"POST",body:data}),d=await r.json().catch(()=>({}));if(r.ok){form.reset();setSection("");setState("done")}else{setMessage(r.status===413?"图片仍然过大，未能通过上传限制。请换一张图片后重试。":d.error??"提交失败，请重试。");setState("error")}
  }
  return <section className="form-shell">{state==="done"?<div className="success"><h2>✓ 已送到老师的审核箱</h2><p>老师审核后，内容会进入你选择的组别或页面位置。</p><button onClick={()=>setState("idle")}>继续提交</button></div>:<form onSubmit={submit}>
   <h2><span>01</span> 这份内容要放到哪里？</h2><label>目标展区<select required name="sectionKey" value={section} onChange={e=>setSection(e.target.value)}><option value="" disabled>请选择准确位置</option>{sections.map(([v,t])=><option value={v} key={v}>{t}</option>)}</select></label>
