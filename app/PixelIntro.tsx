@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const MUSIC_URL = "/audio/ganbei.MP3?v=20260825-2";
+const MUSIC_URL = "/audio/ganbei.MP3?v=20260829-1";
 
 export default function PixelIntro() {
   const [phase, setPhase] = useState<"choose" | "run" | "jump" | "burst" | "welcome" | "exiting" | "gone">("choose");
@@ -17,6 +17,7 @@ export default function PixelIntro() {
   }, []);
 
   const enterPage = () => {
+    startMusic();
     setPhase("exiting");
     const audio = audioRef.current;
     if (audio && !audio.paused) {
@@ -41,7 +42,6 @@ export default function PixelIntro() {
   const chooseCharacter = (next: "girl" | "boy") => {
     if (phase !== "choose") return;
     setCharacter(next);
-    startMusic();
     setPhase("run");
     timersRef.current=[
       window.setTimeout(()=>setPhase("jump"),700),
@@ -49,7 +49,7 @@ export default function PixelIntro() {
       window.setTimeout(()=>setPhase("welcome"),2150)
     ];
   };
-  const skip = () => { timersRef.current.forEach(window.clearTimeout);startMusic();setPhase("gone");window.setTimeout(()=>{if(audioRef.current)audioRef.current.volume=.28;},100); };
+  const skip = () => { timersRef.current.forEach(window.clearTimeout);setPhase("gone"); };
   const toggleMusic = () => { const a=audioRef.current;if(!a)return;if(a.paused){a.volume=.28;setAudioError(false);void a.play().then(()=>setPlaying(true)).catch(()=>setAudioError(true));}else{a.pause();setPlaying(false);} };
 
   return <>
